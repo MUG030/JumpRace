@@ -14,8 +14,8 @@ public class AvatarController : MonoBehaviourPunCallbacks, IPunObservable
 
     private const float MaxStamina = 6f;
 
-    [SerializeField]
-    private Image staminaBar = default;
+    [SerializeField] private Image staminaBar = default;
+    [SerializeField] private float junpStamina = 2.0f;
 
     public static bool isGrounded;
     private int jumpCount = 0;
@@ -35,13 +35,11 @@ public class AvatarController : MonoBehaviourPunCallbacks, IPunObservable
         {
             var input = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
             isGrounded = CheckGround();
-            if (input.sqrMagnitude > 0f)
+            /*if (input.sqrMagnitude > 0f)
             {
-                // 入力があったら、スタミナを減少させる
-                currentStamina = Mathf.Max(0f, currentStamina - Time.deltaTime);
                 // transform.Translate(6f * Time.deltaTime * input.normalized);
-            }
-            else
+            }*/
+            if (input.sqrMagnitude == 0f && isGrounded)
             {
                 // 入力がなかったら、スタミナを回復させる
                 currentStamina = Mathf.Min(currentStamina + Time.deltaTime * 2, MaxStamina);
@@ -49,8 +47,8 @@ public class AvatarController : MonoBehaviourPunCallbacks, IPunObservable
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                if (currentStamina <= junpStamina) return;
                 Jump();
-                currentStamina = Mathf.Max(0f, currentStamina - 5.0f);
             }
         }
 
@@ -66,6 +64,7 @@ public class AvatarController : MonoBehaviourPunCallbacks, IPunObservable
         if (isGrounded && currentStamina > 0f)
         {
             rb.velocity = new Vector2(Input.GetAxis("Horizontal") * moveSpeed, rb.velocity.y);
+            currentStamina = Mathf.Max(0f, currentStamina - Time.deltaTime);
         }
     }
 
@@ -79,6 +78,7 @@ public class AvatarController : MonoBehaviourPunCallbacks, IPunObservable
         {
             rb.velocity = new Vector2(rb.velocity.x, 0f);
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            currentStamina = Mathf.Max(0f, currentStamina - junpStamina);
             jumpCount++;
         }
     }
