@@ -196,7 +196,7 @@ GameObject:
   - component: {fileID: 1885584276613880954}
   - component: {fileID: 3316726070228142954}
   - component: {fileID: 4763730917518170132}
-  - component: {fileID: 542019835015684180}
+  - component: {fileID: 1880755426006115662}
   m_Layer: 0
   m_Name: Avatar
   m_TagString: Untagged
@@ -291,7 +291,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 542019835015684180}
+  - {fileID: 1880755426006115662}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -307,7 +307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4e5d01c70804d2093c6aa1274d71e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &542019835015684180
+--- !u!114 &1880755426006115662
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -316,10 +316,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 4301009460167800736}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Script: {fileID: 11500000, guid: 401e16989cf994ccca6347261d753c4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
