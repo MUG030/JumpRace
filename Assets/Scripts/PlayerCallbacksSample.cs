@@ -1,18 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
-public class PlayerCallbacksSample : MonoBehaviour
+public class PlayerCallbacksSample : MonoBehaviourPunCallbacks
 {
-    // Start is called before the first frame update
-    void Start()
+    // 他プレイヤーがルームへ参加した時に呼ばれるコールバック
+    public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        
+        Debug.Log($"{newPlayer.NickName}が参加しました");
     }
 
-    // Update is called once per frame
-    void Update()
+    // 他プレイヤーがルームから退出した時に呼ばれるコールバック
+    public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        
+        Debug.Log($"{otherPlayer.NickName}が退出しました");
     }
 }
