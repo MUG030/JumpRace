@@ -8,11 +8,13 @@ using UnityEngine.UI;
 public class AvatarController : MonoBehaviourPunCallbacks, IPunObservable
 {
     public float moveSpeed = 5f; // プレイヤーの移動速度
-    public float jumpForce = 10f; // ジャンプ力
+    public float jumpForce = 1f; // ジャンプ力
+    public float maxJumpForce = 5f;
     public float groundCheckDistance = 0.1f; // 地面判定の距離
     public LayerMask groundLayer; 
 
-    private const float MaxStamina = 6f;
+    private const float MaxStamina = 10f;
+    private float jumpForceMultiplier = 1f;
 
     [SerializeField] private Image staminaBar = default;
     [SerializeField] private float junpStamina = 2.0f;
@@ -45,9 +47,17 @@ public class AvatarController : MonoBehaviourPunCallbacks, IPunObservable
                 currentStamina = Mathf.Min(currentStamina + Time.deltaTime * 2, MaxStamina);
             }
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKey(KeyCode.Space))
             {
                 if (currentStamina <= junpStamina) return;
+                // スペースキーが押されている時間に応じてジャンプ力を上げる
+                jumpForceMultiplier += Time.deltaTime;
+                // ジャンプ力が上限を超えないように制限
+                jumpForceMultiplier = Mathf.Clamp(jumpForceMultiplier, 1f, maxJumpForce);
+            }
+
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
                 Jump();
             }
         }
@@ -64,7 +74,7 @@ public class AvatarController : MonoBehaviourPunCallbacks, IPunObservable
         if (isGrounded && currentStamina > 0f)
         {
             rb.velocity = new Vector2(Input.GetAxis("Horizontal") * moveSpeed, rb.velocity.y);
-            currentStamina = Mathf.Max(0f, currentStamina - Time.deltaTime);
+            currentStamina = Mathf.Max(0f, currentStamina - (Time.deltaTime / 2));
         }
     }
 
@@ -74,17 +84,20 @@ public class AvatarController : MonoBehaviourPunCallbacks, IPunObservable
         if (jumpCount == 2)
         {
             jumpCount = 0;
+            jumpForceMultiplier = 1f;
         } else if (isGrounded)
         {
             rb.velocity = new Vector2(rb.velocity.x, 0f);
-            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            currentStamina = Mathf.Max(0f, currentStamina - junpStamina);
+            rb.AddForce(Vector2.up * jumpForce * jumpForceMultiplier, ForceMode2D.Impulse);
+            currentStamina = Mathf.Max(0f, currentStamina - (junpStamina + jumpForceMultiplier));
+            jumpForceMultiplier = 1f;
             jumpCount++;
         } else if (jumpCount == 1)
         {
             rb.velocity = new Vector2(Input.GetAxis("Horizontal") * moveSpeed, 0f);
-            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            currentStamina = Mathf.Max(0f, currentStamina - junpStamina);
+            rb.AddForce(Vector2.up * jumpForce * jumpForceMultiplier, ForceMode2D.Impulse);
+            currentStamina = Mathf.Max(0f, currentStamina - (junpStamina + jumpForceMultiplier));
+            jumpForceMultiplier = 1f;
             jumpCount++;
         }
     }

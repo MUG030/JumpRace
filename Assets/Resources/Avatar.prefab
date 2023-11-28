@@ -312,13 +312,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  jumpForce: 10
+  jumpForce: 5
+  maxJumpForce: 3
   groundCheckDistance: 0.1
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
   staminaBar: {fileID: 6295938120646572687}
-  junpStamina: 2
+  junpStamina: 1
 --- !u!50 &2775278614218457437
 Rigidbody2D:
   serializedVersion: 4
