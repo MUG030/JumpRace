@@ -74,9 +74,15 @@ public class AvatarController : MonoBehaviourPunCallbacks, IPunObservable
         if (jumpCount == 2)
         {
             jumpCount = 0;
-        } else if (jumpCount == 1 || isGrounded)
+        } else if (isGrounded)
         {
             rb.velocity = new Vector2(rb.velocity.x, 0f);
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            currentStamina = Mathf.Max(0f, currentStamina - junpStamina);
+            jumpCount++;
+        } else if (jumpCount == 1)
+        {
+            rb.velocity = new Vector2(Input.GetAxis("Horizontal") * moveSpeed, 0f);
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             currentStamina = Mathf.Max(0f, currentStamina - junpStamina);
             jumpCount++;
