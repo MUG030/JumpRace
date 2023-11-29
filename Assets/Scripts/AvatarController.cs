@@ -35,8 +35,7 @@ public class AvatarController : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (photonView.IsMine)
         {
-            var input = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
-            isGrounded = CheckGround();
+            Vector3 input = new(Input.GetAxis("Horizontal"), 0, 0);
             /*if (input.sqrMagnitude > 0f)
             {
                 // transform.Translate(6f * Time.deltaTime * input.normalized);
@@ -119,8 +118,10 @@ public class AvatarController : MonoBehaviourPunCallbacks, IPunObservable
 
     private void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.layer == LayerMask.NameToLayer("Floor"))
+        int layerMask = 1 << col.gameObject.layer;
+        if ((groundLayer.value & layerMask) != 0)
         {
+            Debug.Log("着地");
             jumpCount = 0;
         }
     }
