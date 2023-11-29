@@ -71,7 +71,7 @@ public class AvatarController : MonoBehaviourPunCallbacks, IPunObservable
 
         if (isGrounded && currentStamina > 0f)
         {
-            rb.velocity = new Vector2(Input.GetAxis("Horizontal") * moveSpeed, rb.velocity.y);
+            rb.velocity = new Vector2(Input.GetAxis("Horizontal") * (moveSpeed / 3), rb.velocity.y);
             currentStamina = Mathf.Max(0f, currentStamina - (Time.deltaTime / 2));
         }
     }

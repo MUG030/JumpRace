@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2595267961894380659}
   - component: {fileID: 1544534610964863055}
   - component: {fileID: 8567027263447194944}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: NameDisplay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -199,7 +199,7 @@ GameObject:
   - component: {fileID: 2775278614218457437}
   - component: {fileID: 4033821028580711834}
   - component: {fileID: 5686372687693607400}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Avatar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -336,7 +336,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: 3cd3c3b7ec45043dcb1bbf3199e2d735, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -409,7 +409,7 @@ GameObject:
   - component: {fileID: 3312963830769268809}
   - component: {fileID: 5397574605923694179}
   - component: {fileID: 6295938120646572687}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -484,7 +484,7 @@ GameObject:
   - component: {fileID: 1889759933258900005}
   - component: {fileID: 2488113776083715735}
   - component: {fileID: 3197903024291323128}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: BarBackGround
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -561,7 +561,7 @@ GameObject:
   - component: {fileID: 4739616826575598587}
   - component: {fileID: 7555036614960210118}
   - component: {fileID: 1618368394468851492}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
