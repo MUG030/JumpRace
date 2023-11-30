@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
-using Photon.Realtime;
+// using Photon.Realtime;
 using UnityEngine;
 
 public class SampleScene : MonoBehaviourPunCallbacks
@@ -14,7 +14,7 @@ public class SampleScene : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings();
     }
 
-    // マスターサーバーへの接続が成功した時に呼ばれるコールバック
+    /*// マスターサーバーへの接続が成功した時に呼ばれるコールバック
     public override void OnConnectedToMaster()
     {
         // ランダムなルームに参加する
@@ -29,7 +29,7 @@ public class SampleScene : MonoBehaviourPunCallbacks
         roomOptions.MaxPlayers = 2;
 
         PhotonNetwork.CreateRoom(null, roomOptions);
-    }
+    }*/
 
     // ゲームサーバーへの接続が成功した時に呼ばれるコールバック
     public override void OnJoinedRoom()
@@ -42,10 +42,10 @@ public class SampleScene : MonoBehaviourPunCallbacks
             PhotonNetwork.CurrentRoom.SetStartTime(PhotonNetwork.ServerTimestamp);
         }
 
-        // ルームが満員になったら、以降そのルームへの参加を不許可にする
+        /*// ルームが満員になったら、以降そのルームへの参加を不許可にする
         if (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers)
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
-        }
+        }*/
     }
 }
