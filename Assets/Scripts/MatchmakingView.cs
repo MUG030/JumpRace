@@ -15,7 +15,7 @@ public class MatchmakingView : MonoBehaviourPunCallbacks
     [SerializeField]
     private TextMeshProUGUI statusText = default;
 
-    private const int MaxPlayerPerRoom = 1;
+    private const int MaxPlayerPerRoom = 2;
     private CanvasGroup canvasGroup;
 
     private void Awake()
@@ -56,6 +56,15 @@ public class MatchmakingView : MonoBehaviourPunCallbacks
         // ロビーに入室
         PhotonNetwork.JoinLobby();
 
+        // 少し待ってから部屋に参加
+        StartCoroutine(JoinRoomAfterDelay());
+    }
+
+    private IEnumerator JoinRoomAfterDelay()
+    {
+        // 1秒待つ（適切な時間に調整してください）
+        yield return new WaitForSeconds(10f);
+
         // ルームを非公開に設定する（新規でルームを作成する場合）
         var roomOptions = new RoomOptions();
         roomOptions.MaxPlayers = 2;
@@ -77,11 +86,14 @@ public class MatchmakingView : MonoBehaviourPunCallbacks
     // 対戦相手を待つ処理
     private IEnumerator WaitForOpponentCoroutine()
     {
-        while (PhotonNetwork.InLobby && PhotonNetwork.CurrentRoom.PlayerCount < MaxPlayerPerRoom)
+        Debug.Log("呼ばれた");
+        Debug.Log(PhotonNetwork.CurrentRoom.PlayerCount);
+        // ルームに参加した後、対戦相手が揃っているか確認
+        while (PhotonNetwork.InRoom && PhotonNetwork.CurrentRoom.PlayerCount < MaxPlayerPerRoom)
         {
             yield return null;
         }
-
+        
         if (PhotonNetwork.InRoom)
         {
             statusText.text = "Matching!";

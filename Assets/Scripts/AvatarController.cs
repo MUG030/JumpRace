@@ -14,6 +14,7 @@ public class AvatarController : MonoBehaviourPunCallbacks, IPunObservable
 
     private const float MaxStamina = 10f;
     private float jumpForceMultiplier = 1f;
+    private float moveForceMultiplier = 1f;
 
     [SerializeField] private Image staminaBar = default;
     [SerializeField] private float junpStamina = 2.0f;
@@ -50,8 +51,10 @@ public class AvatarController : MonoBehaviourPunCallbacks, IPunObservable
                 if (currentStamina <= junpStamina) return;
                 // スペースキーが押されている時間に応じてジャンプ力を上げる
                 jumpForceMultiplier += Time.deltaTime;
+                moveForceMultiplier += Time.deltaTime;
                 // ジャンプ力が上限を超えないように制限
                 jumpForceMultiplier = Mathf.Clamp(jumpForceMultiplier, 1f, maxJumpForce);
+                moveForceMultiplier = Mathf.Clamp(moveForceMultiplier, 1f, maxJumpForce);
             }
 
             if (Input.GetKeyUp(KeyCode.Space))
@@ -83,15 +86,19 @@ public class AvatarController : MonoBehaviourPunCallbacks, IPunObservable
         {
             jumpCount = 0;
             jumpForceMultiplier = 1f;
+            moveForceMultiplier = 1f;
         } else if (isGrounded)
         {
+            if (currentStamina < jumpForceMultiplier) return;
             rb.velocity = new Vector2(rb.velocity.x, 0f);
-            rb.AddForce(Vector2.up * jumpForce * jumpForceMultiplier, ForceMode2D.Impulse);
+            Vector2 moveForce = new Vector2(Input.GetAxis("Horizontal") * moveForceMultiplier * moveSpeed, jumpForce * jumpForceMultiplier);
+            rb.AddForce(moveForce, ForceMode2D.Impulse);
             currentStamina = Mathf.Max(0f, currentStamina - (junpStamina + jumpForceMultiplier));
             jumpForceMultiplier = 1f;
             jumpCount++;
         } else if (jumpCount == 1)
         {
+            if (currentStamina < jumpForceMultiplier) return;
             rb.velocity = new Vector2(Input.GetAxis("Horizontal") * moveSpeed, 0f);
             rb.AddForce(Vector2.up * jumpForce * jumpForceMultiplier, ForceMode2D.Impulse);
             currentStamina = Mathf.Max(0f, currentStamina - (junpStamina + jumpForceMultiplier));
@@ -120,8 +127,12 @@ public class AvatarController : MonoBehaviourPunCallbacks, IPunObservable
         int layerMask = 1 << col.gameObject.layer;
         if ((groundLayer.value & layerMask) != 0)
         {
-            Debug.Log("着地");
             jumpCount = 0;
+        }
+
+        if (col.gameObject.CompareTag("Wall"))
+        {
+            jumpCount = 2;
         }
     }
 
