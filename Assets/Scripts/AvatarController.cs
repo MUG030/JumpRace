@@ -36,10 +36,6 @@ public class AvatarController : MonoBehaviourPunCallbacks, IPunObservable
         if (photonView.IsMine)
         {
             Vector3 input = new(Input.GetAxis("Horizontal"), 0, 0);
-            /*if (input.sqrMagnitude > 0f)
-            {
-                // transform.Translate(6f * Time.deltaTime * input.normalized);
-            }*/
             if (input.sqrMagnitude == 0f && isGrounded)
             {
                 // 入力がなかったら、スタミナを回復させる
@@ -76,6 +72,9 @@ public class AvatarController : MonoBehaviourPunCallbacks, IPunObservable
         {
             rb.velocity = new Vector2(Input.GetAxis("Horizontal") * (moveSpeed / 3), rb.velocity.y);
             currentStamina = Mathf.Max(0f, currentStamina - (Time.deltaTime / 2));
+        }else if (currentStamina == 0f)
+        {
+            rb.velocity = new Vector2(0, 0);
         }
     }
 
